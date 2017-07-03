@@ -8,33 +8,29 @@
  */
 class SimpleCaptchaField extends TextField
 {
-
     protected $validateOnSubmit = false;
 
     /**
      * SimpleCaptchaField constructor.
      * @param string $name
      * @param null $title
-     * @param string $form
+     * @param string $formId
      */
-    public function __construct($name, $title = null, $form)
+    public function __construct($name, $title, $formId)
     {
         Requirements::css(SIMPLE_FORM_CAPTCHA_DIR . '/css/form.css');
         Requirements::javascript(SIMPLE_FORM_CAPTCHA_DIR . '/js/SimpleCaptchaField.js');
 
-        parent::__construct($name, $title, null, null, $form);
+        parent::__construct($name, $title);
 
-        $formName = $form->getName();
-        $form->addExtraClass($formName);
-        Requirements::customScript(sprintf("var SIMPLECAPTCHAFORM = '%s'", $formName));
-
+        Requirements::customScript(sprintf("var SIMPLECAPTCHAFORM = '%s'", $formId));
     }
 
 
     /**
      * @return string
      */
-    function getSkyImageLink()
+    public function getSkyImageLink()
     {
         $controller = SimpleCaptchaController::create();
         $controller->generateCaptchaID();
@@ -51,11 +47,9 @@ class SimpleCaptchaField extends TextField
      */
     public function validate($validator)
     {
-
         if (self::getValidateOnSubmit()) {
             return true;
         } else {
-
             if (strtoupper($this->value) === SimpleCaptchaController::getCaptchaID()) {
                 return true;
             }
@@ -67,7 +61,6 @@ class SimpleCaptchaField extends TextField
 
             Session::set("SimpleCaptchaError", $errormsg);
             return false;
-
         }
     }
 

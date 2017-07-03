@@ -22,7 +22,7 @@ var SimpleCaptchaField = function () {
         validate: function () {
 
 
-            $("form." + SIMPLECAPTCHAFORM + " input[type='submit']").on('click', function (e) {
+            $("#" + SIMPLECAPTCHAFORM + " input[type='submit']").on('click', function (e) {
                 e.preventDefault();
 
                 var Captcha = $("input.SimpleCaptchaField").val();
